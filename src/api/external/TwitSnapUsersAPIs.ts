@@ -1,23 +1,41 @@
 import {HttpRequester} from "./HttpRequester";
-import {TwitSnapAPIs} from "./TwitSnapAPIs";
+import {ExternalApiInterface} from "./ExternalApiInterface";
 
-export class TwitSnapUsersAPIs extends TwitSnapAPIs{
+export class TwitSnapUsersAPIs extends ExternalApiInterface{
     constructor(httpRequester: HttpRequester) {
         super(httpRequester);
     }
 
-    public async getUsers(offset: string, limit: string): Promise<void> {
+    /**
+     * Get users from the external service.
+     *
+     * @param offset - The offset for the users.
+     * @param limit - The limit for the users.
+     */
+    public async getUsers(offset: string, limit: string): Promise<any> {
         const url = "url/" + "endpoint/" + "?offset=" + offset + "&limit=" + limit;
 
-        await this.httpRequester.getToUrl(url, undefined, this.getUsersErrorHandler, null);
+        //TODO Pendiente hacer la extract function de esto
+        return await this.httpRequester.getToUrl(url, undefined, this.getUsersErrorHandler, null);
     }
 
-    public async getUser(userId: string): Promise<void> {
+    /**
+     * Get a user from the external service.
+     *
+     * @param userId - The user id.
+     */
+    public async getUser(userId: string): Promise<any> {
         const url = "url/" + "endpoint/" + userId;
 
-        await this.httpRequester.getToUrl(url, undefined, this.getUserErrorHandler, null);
+        //TODO Pendiente hacer la extract function de esto
+        return await this.httpRequester.getToUrl(url, undefined, this.getUserErrorHandler, null);
     }
 
+    /**
+     * Ban or unban a user from the external service.
+     *
+     * @param userId - The user id.
+     */
     public async banOrUnbanUser(userId: string): Promise<void> {
         const url = "url/" + "endpoint/" + userId;
 

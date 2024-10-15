@@ -4,7 +4,7 @@ import {ExternalServiceConnectionError} from "../../services/application/errors/
 import {logger} from "../../utils/container/container";
 import {ExternalServiceHTTPError} from "./ExternalServiceHTTPError";
 
-export abstract class TwitSnapAPIs{
+export abstract class ExternalApiInterface {
     httpRequester: HttpRequester;
 
     protected constructor(httpRequester: HttpRequester){
@@ -34,6 +34,13 @@ export abstract class TwitSnapAPIs{
         throw error;
     }
 
+    /**
+     * Generates an error based on the response status for an API call.
+     *
+     * @param status - The HTTP status code.
+     * @param apiName - The name of the API that was called.
+     * @returns The generated error object.
+     */
     protected standardResponseStatusErrorHandler = (status: number, apiName: string): Error => {
         switch (status) {
             default:

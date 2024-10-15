@@ -1,25 +1,42 @@
 import {HttpRequester} from "./HttpRequester";
-import {TwitSnapAPIs} from "./TwitSnapAPIs";
+import {ExternalApiInterface} from "./ExternalApiInterface";
 
-export class TwitSnapTwitsAPIs extends TwitSnapAPIs{
+export class TwitSnapTwitsAPIs extends ExternalApiInterface{
     constructor(httpRequester: HttpRequester){
         super(httpRequester);
     }
 
-    public async getTwits(offset: string, limit: string): Promise<void> {
-        const url = "url/" + "endpoint/" + "?offset=" + offset + "&limit=" + limit;
+    /**
+     * Get twits from the external service.
+     *
+     * @param offset - The offset for the twits.
+     * @param limit - The limit for the twits.
+     * @param userId - The user id.
+     */
+    public async getTwits(offset: string, limit: string, userId: string): Promise<any> {
+        const url = "url/" + "endpoint/" + "?offset=" + offset + "&limit=" + limit + "&userId=" + userId;
 
         //TODO Pendiente hacer la extract function de esto
-        await this.httpRequester.getToUrl(url, undefined, this.getTwitsErrorHandler, null);
+        return await this.httpRequester.getToUrl(url, undefined, this.getTwitsErrorHandler, null);
     }
 
-    public async getTwit(twitId: string): Promise<void> {
+    /**
+     * Get a twit from the external service.
+     *
+     * @param twitId - The twit id.
+     */
+    public async getTwit(twitId: string): Promise<any> {
         const url = "url/" + "endpoint/" + twitId;
 
         //TODO Pendiente hacer la extract function de esto
-        await this.httpRequester.getToUrl(url, undefined, this.getTwitErrorHandler, null);
+        return await this.httpRequester.getToUrl(url, undefined, this.getTwitErrorHandler, null);
     }
 
+    /**
+     * Block or unblock a twit from the external service.
+     *
+     * @param twitId - The twit id.
+     */
     public async blockOrUnblockTwit(twitId: string): Promise<void> {
         const url = "url" + "endpoint";
 

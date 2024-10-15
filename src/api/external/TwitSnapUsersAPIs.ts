@@ -1,5 +1,6 @@
 import {HttpRequester} from "./HttpRequester";
 import {ExternalApiInterface} from "./ExternalApiInterface";
+import {AxiosResponse} from "axios";
 
 export class TwitSnapUsersAPIs extends ExternalApiInterface{
     constructor(httpRequester: HttpRequester) {
@@ -16,7 +17,7 @@ export class TwitSnapUsersAPIs extends ExternalApiInterface{
         const url = "url/" + "endpoint/" + "?offset=" + offset + "&limit=" + limit;
 
         //TODO Pendiente hacer la extract function de esto
-        return await this.httpRequester.getToUrl(url, undefined, this.getUsersErrorHandler, null);
+        return await this.httpRequester.getToUrl(url, undefined, this.getUsersErrorHandler, this.getUsersExtractor);
     }
 
     /**
@@ -28,7 +29,7 @@ export class TwitSnapUsersAPIs extends ExternalApiInterface{
         const url = "url/" + "endpoint/" + userId;
 
         //TODO Pendiente hacer la extract function de esto
-        return await this.httpRequester.getToUrl(url, undefined, this.getUserErrorHandler, null);
+        return await this.httpRequester.getToUrl(url, undefined, this.getUserErrorHandler, this.getUserExtractor);
     }
 
     /**
@@ -40,6 +41,14 @@ export class TwitSnapUsersAPIs extends ExternalApiInterface{
         const url = "url/" + "endpoint/" + userId;
 
         await this.httpRequester.postToUrl(url, undefined, this.banOrUnbanUserErrorHandler);
+    }
+
+    private getUserExtractor = (response: void | AxiosResponse<any, any>): any => {
+        //TODO
+    }
+
+    private getUsersExtractor = (response: void | AxiosResponse<any, any>): any => {
+        //TODO
     }
 
     /**

@@ -20,7 +20,6 @@ export class TwitSnapTwitsAPIs extends ExternalApiInterface{
      * @param userId - The user id.
      */
     public async getTwits(offset: string, limit: string, userId: string): Promise<any> {
-        //TODO Definir url
         const url = TWITSNAP_URL + GET_TWEETS_PATH + "?offset=" + offset + "&limit=" + limit + "&user_id=" + userId;
 
         return await this.httpRequester.getToUrl(url, undefined, this.getTwitsErrorHandler, this.getTwitsExtractor);
@@ -32,7 +31,6 @@ export class TwitSnapTwitsAPIs extends ExternalApiInterface{
      * @param twitId - The twit id.
      */
     public async getTwit(twitId: string): Promise<any> {
-        //TODO Definir url
         const url = TWITSNAP_URL + GET_TWIT_PATH + twitId;
 
         return await this.httpRequester.getToUrl(url, undefined, this.getTwitErrorHandler, this.getTwitExtractor);
@@ -44,7 +42,6 @@ export class TwitSnapTwitsAPIs extends ExternalApiInterface{
      * @param twitId - The twit id.
      */
     public async blockOrUnblockTwit(twitId: string): Promise<void> {
-        //TODO Definir url
         const url = TWITSNAP_URL + BLOCK_TWEET_PATH + "post?post_id=" + twitId;
 
         await this.httpRequester.postToUrl(url, undefined, this.blockOrUnblockTwitErrorHandler);

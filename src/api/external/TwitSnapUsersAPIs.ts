@@ -19,7 +19,6 @@ export class TwitSnapUsersAPIs extends ExternalApiInterface{
      * @param limit - The limit for the users.
      */
     public async getUsers(offset: string, limit: string): Promise<any> {
-        //TODO Definir url
         const url = TWITSNAP_URL + BAN_USER_PATH + "?offset=" + offset + "&limit=" + limit;
 
         return await this.httpRequester.getToUrl(url, undefined, this.getUsersErrorHandler, this.getUsersExtractor);
@@ -31,7 +30,6 @@ export class TwitSnapUsersAPIs extends ExternalApiInterface{
      * @param userId - The user id.
      */
     public async getUser(userId: string): Promise<any> {
-        //TODO Definir url
         const url = TWITSNAP_URL + GET_USER_PATH + userId;
 
         return await this.httpRequester.getToUrl(url, undefined, this.getUserErrorHandler, this.getUserExtractor);
@@ -43,7 +41,6 @@ export class TwitSnapUsersAPIs extends ExternalApiInterface{
      * @param userId - The user id.
      */
     public async banOrUnbanUser(userId: string): Promise<void> {
-        //TODO Definir url
         const url = TWITSNAP_URL + GET_USERS_PATH + userId + "/ban";
 
         await this.httpRequester.postToUrl(url, undefined, this.banOrUnbanUserErrorHandler);

@@ -4,6 +4,7 @@ import {AxiosResponse} from "axios";
 import {ResourceNotFoundError} from "../../services/application/errors/ResourceNotFoundError";
 import {ExternalServiceHTTPError} from "./ExternalServiceHTTPError";
 import {injectable} from "tsyringe";
+import {TWITSNAP_URL, BAN_USER_PATH, GET_USER_PATH, GET_USERS_PATH} from "../../utils/config";
 
 @injectable()
 export class TwitSnapUsersAPIs extends ExternalApiInterface{
@@ -19,7 +20,7 @@ export class TwitSnapUsersAPIs extends ExternalApiInterface{
      */
     public async getUsers(offset: string, limit: string): Promise<any> {
         //TODO Definir url
-        const url = "url/" + "endpoint/" + "?offset=" + offset + "&limit=" + limit;
+        const url = TWITSNAP_URL + BAN_USER_PATH + "?offset=" + offset + "&limit=" + limit;
 
         return await this.httpRequester.getToUrl(url, undefined, this.getUsersErrorHandler, this.getUsersExtractor);
     }
@@ -31,7 +32,7 @@ export class TwitSnapUsersAPIs extends ExternalApiInterface{
      */
     public async getUser(userId: string): Promise<any> {
         //TODO Definir url
-        const url = "url/" + "endpoint/" + userId;
+        const url = TWITSNAP_URL + GET_USER_PATH + userId;
 
         return await this.httpRequester.getToUrl(url, undefined, this.getUserErrorHandler, this.getUserExtractor);
     }
@@ -43,7 +44,7 @@ export class TwitSnapUsersAPIs extends ExternalApiInterface{
      */
     public async banOrUnbanUser(userId: string): Promise<void> {
         //TODO Definir url
-        const url = "url/" + "endpoint/" + userId;
+        const url = TWITSNAP_URL + GET_USERS_PATH + userId + "/ban";
 
         await this.httpRequester.postToUrl(url, undefined, this.banOrUnbanUserErrorHandler);
     }

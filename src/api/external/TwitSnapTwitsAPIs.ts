@@ -48,11 +48,11 @@ export class TwitSnapTwitsAPIs extends ExternalApiInterface{
     }
 
     private getTwitExtractor = (response: void | AxiosResponse<any, any>): any => {
-        //TODO
+        //TODO. Ajustar tambien el tipo de dato del return
     }
 
     private getTwitsExtractor = (response: void | AxiosResponse<any, any>): any => {
-        //TODO
+        //TODO. Ajustar tambien el tipo de dato del return
     }
 
     /**

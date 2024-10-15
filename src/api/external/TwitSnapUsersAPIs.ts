@@ -16,7 +16,6 @@ export class TwitSnapUsersAPIs extends ExternalApiInterface{
     public async getUsers(offset: string, limit: string): Promise<any> {
         const url = "url/" + "endpoint/" + "?offset=" + offset + "&limit=" + limit;
 
-        //TODO Pendiente hacer la extract function de esto
         return await this.httpRequester.getToUrl(url, undefined, this.getUsersErrorHandler, this.getUsersExtractor);
     }
 
@@ -28,7 +27,6 @@ export class TwitSnapUsersAPIs extends ExternalApiInterface{
     public async getUser(userId: string): Promise<any> {
         const url = "url/" + "endpoint/" + userId;
 
-        //TODO Pendiente hacer la extract function de esto
         return await this.httpRequester.getToUrl(url, undefined, this.getUserErrorHandler, this.getUserExtractor);
     }
 
@@ -44,11 +42,11 @@ export class TwitSnapUsersAPIs extends ExternalApiInterface{
     }
 
     private getUserExtractor = (response: void | AxiosResponse<any, any>): any => {
-        //TODO
+        //TODO. Ajustar tambien el tipo de dato del return
     }
 
     private getUsersExtractor = (response: void | AxiosResponse<any, any>): any => {
-        //TODO
+        //TODO. Ajustar tambien el tipo de dato del return
     }
 
     /**

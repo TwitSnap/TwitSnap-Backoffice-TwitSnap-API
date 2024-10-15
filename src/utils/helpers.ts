@@ -7,6 +7,7 @@ import {ExternalServiceInternalError} from "../services/application/errors/Exter
 import * as jwt from "jsonwebtoken";
 import {ExternalServiceHTTPError} from "../api/external/ExternalServiceHTTPError";
 import {InvalidTokenError} from "jwt-decode";
+import {ResourceNotFoundError} from "../services/application/errors/ResourceNotFoundError";
 
 /**
  * A utility class for various helper functions.
@@ -119,5 +120,6 @@ export class Helpers {
         Helpers._errorStatusCodeMap.set(ExternalServiceHTTPError, StatusCodes.INTERNAL_SERVER_ERROR);
         Helpers._errorStatusCodeMap.set(BadRequestError, StatusCodes.BAD_REQUEST);
         Helpers._errorStatusCodeMap.set(InvalidTokenError, StatusCodes.UNAUTHORIZED);
+        Helpers._errorStatusCodeMap.set(ResourceNotFoundError, StatusCodes.NOT_FOUND);
     }
 }

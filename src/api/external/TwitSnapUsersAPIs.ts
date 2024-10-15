@@ -1,7 +1,11 @@
 import {HttpRequester} from "./HttpRequester";
 import {ExternalApiInterface} from "./ExternalApiInterface";
 import {AxiosResponse} from "axios";
+import {ResourceNotFoundError} from "../../services/application/errors/ResourceNotFoundError";
+import {ExternalServiceHTTPError} from "./ExternalServiceHTTPError";
+import {injectable} from "tsyringe";
 
+@injectable()
 export class TwitSnapUsersAPIs extends ExternalApiInterface{
     constructor(httpRequester: HttpRequester) {
         super(httpRequester);
@@ -14,6 +18,7 @@ export class TwitSnapUsersAPIs extends ExternalApiInterface{
      * @param limit - The limit for the users.
      */
     public async getUsers(offset: string, limit: string): Promise<any> {
+        //TODO Definir url
         const url = "url/" + "endpoint/" + "?offset=" + offset + "&limit=" + limit;
 
         return await this.httpRequester.getToUrl(url, undefined, this.getUsersErrorHandler, this.getUsersExtractor);
@@ -25,6 +30,7 @@ export class TwitSnapUsersAPIs extends ExternalApiInterface{
      * @param userId - The user id.
      */
     public async getUser(userId: string): Promise<any> {
+        //TODO Definir url
         const url = "url/" + "endpoint/" + userId;
 
         return await this.httpRequester.getToUrl(url, undefined, this.getUserErrorHandler, this.getUserExtractor);
@@ -36,6 +42,7 @@ export class TwitSnapUsersAPIs extends ExternalApiInterface{
      * @param userId - The user id.
      */
     public async banOrUnbanUser(userId: string): Promise<void> {
+        //TODO Definir url
         const url = "url/" + "endpoint/" + userId;
 
         await this.httpRequester.postToUrl(url, undefined, this.banOrUnbanUserErrorHandler);
@@ -69,7 +76,12 @@ export class TwitSnapUsersAPIs extends ExternalApiInterface{
      * @returns {Error} The generated error object.
      */
     private banOrUnbanUserResponseStatusErrorHandler = (status: number): Error => {
-        return this.standardResponseStatusErrorHandler(status, "banOrUnbanUser");
+        switch (status) {
+            case 404:
+                return new ResourceNotFoundError("Twit not found.");
+            default:
+                return new ExternalServiceHTTPError(`API Call banOrUnbanUser has failed with status ${status}.`);
+        }
     }
 
     /**
@@ -115,6 +127,11 @@ export class TwitSnapUsersAPIs extends ExternalApiInterface{
      * @returns {Error} The generated error object.
      */
     private getUserResponseStatusErrorHandler = (status: number): Error => {
-        return this.standardResponseStatusErrorHandler(status, "getUser");
+        switch (status) {
+            case 404:
+                return new ResourceNotFoundError("Twit not found.");
+            default:
+                return new ExternalServiceHTTPError(`API Call getUser has failed with status ${status}.`);
+        }
     }
 }

@@ -6,6 +6,7 @@ import {BcryptEncrypter} from "../encrypter/BcryptEncrypter";
 import {LoggingStrategy} from "../logger/LoggingStrategy";
 import {WinstonLoggerStrategy} from "../logger/WinstonLoggerStrategy";
 import {LOGGING, LOG_DEBUG, LOG_ERROR, LOG_INFO} from "../config";
+import {TwitSnapController} from "../../api/controller/TwitSnapController";
 
 // ? Register all dependencies
 container.registerSingleton<Encrypter>("Encrypter", BcryptEncrypter);
@@ -18,3 +19,4 @@ container.register<boolean>("logInfo", {useValue: (LOG_INFO === "true") });
 
 // ? Get instances
 export const logger = container.resolve(Logger);
+export const twitSnapController = container.resolve(TwitSnapController);

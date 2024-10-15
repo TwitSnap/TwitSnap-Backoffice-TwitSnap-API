@@ -1,5 +1,7 @@
 import { TwitSnapUsersAPIs } from '../../api/external/TwitSnapUsersAPIs';
+import {injectable} from "tsyringe";
 
+@injectable()
 export class TwitSnapUserService{
     private twitSnapUsersAPIs: TwitSnapUsersAPIs;
 

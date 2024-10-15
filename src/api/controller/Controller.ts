@@ -68,4 +68,17 @@ export abstract class Controller {
         if(!req.params[param]) throw new BadRequestError(`Parameter ${param} is required`);
         return req.params[param];
     }
+
+    /**
+     * Retrieves the specified query parameter from the request query. Throws a BadRequestError if the query parameter is not present.
+     *
+     * @param req - The request object containing the query parameters.
+     * @param queryParam - The query parameter to retrieve from the request query.
+     * @returns The value of the query parameter from the request query.
+     * @throws {BadRequestError} If the query parameter is not present in the request query.
+     */
+    protected getQueryParamOrBadRequestError = <T>(req: any, queryParam: string): T => {
+        if(!req.query[queryParam]) throw new BadRequestError(`Query parameter ${queryParam} is required`);
+        return req.query[queryParam];
+    }
 }

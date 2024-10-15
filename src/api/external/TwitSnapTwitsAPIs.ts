@@ -1,7 +1,11 @@
 import {HttpRequester} from "./HttpRequester";
 import {ExternalApiInterface} from "./ExternalApiInterface";
 import {AxiosResponse} from "axios";
+import {ExternalServiceHTTPError} from "./ExternalServiceHTTPError";
+import {ResourceNotFoundError} from "../../services/application/errors/ResourceNotFoundError";
+import {injectable} from "tsyringe";
 
+@injectable()
 export class TwitSnapTwitsAPIs extends ExternalApiInterface{
     constructor(httpRequester: HttpRequester){
         super(httpRequester);
@@ -15,9 +19,9 @@ export class TwitSnapTwitsAPIs extends ExternalApiInterface{
      * @param userId - The user id.
      */
     public async getTwits(offset: string, limit: string, userId: string): Promise<any> {
+        //TODO Definir url
         const url = "url/" + "endpoint/" + "?offset=" + offset + "&limit=" + limit + "&userId=" + userId;
 
-        //TODO Pendiente hacer la extract function de esto
         return await this.httpRequester.getToUrl(url, undefined, this.getTwitsErrorHandler, this.getTwitsExtractor);
     }
 
@@ -27,6 +31,7 @@ export class TwitSnapTwitsAPIs extends ExternalApiInterface{
      * @param twitId - The twit id.
      */
     public async getTwit(twitId: string): Promise<any> {
+        //TODO Definir url
         const url = "url/" + "endpoint/" + twitId;
 
         return await this.httpRequester.getToUrl(url, undefined, this.getTwitErrorHandler, this.getTwitExtractor);
@@ -38,13 +43,10 @@ export class TwitSnapTwitsAPIs extends ExternalApiInterface{
      * @param twitId - The twit id.
      */
     public async blockOrUnblockTwit(twitId: string): Promise<void> {
-        const url = "url" + "endpoint";
+        //TODO Definir url
+        const url = "url" + "endpoint" + twitId;
 
-        const data = {
-            twitId: twitId,
-        }
-
-        await this.httpRequester.postToUrl(url, data, this.blockOrUnblockTwitErrorHandler);
+        await this.httpRequester.postToUrl(url, undefined, this.blockOrUnblockTwitErrorHandler);
     }
 
     private getTwitExtractor = (response: void | AxiosResponse<any, any>): any => {
@@ -75,7 +77,12 @@ export class TwitSnapTwitsAPIs extends ExternalApiInterface{
      * @returns {Error} The generated error object.
      */
     private blockOrUnblockTwitResponseStatusErrorHandler = (status: number): Error => {
-        return this.standardResponseStatusErrorHandler(status, "blockOrUnblockTwit");
+        switch (status) {
+            case 404:
+                return new ResourceNotFoundError("User not found.");
+            default:
+                return new ExternalServiceHTTPError(`API Call getUser has failed with status ${status}.`);
+        }
     }
 
     /**
@@ -121,6 +128,11 @@ export class TwitSnapTwitsAPIs extends ExternalApiInterface{
      * @returns {Error} The generated error object.
      */
     private getTwitResponseStatusErrorHandler = (status: number): Error => {
-        return this.standardResponseStatusErrorHandler(status, "getTwit");
+        switch (status) {
+            case 404:
+                return new ResourceNotFoundError("Twit not found.");
+            default:
+                return new ExternalServiceHTTPError(`API Call getTwit has failed with status ${status}.`);
+        }
     }
 }

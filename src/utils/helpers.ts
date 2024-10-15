@@ -5,7 +5,7 @@ import {ExternalServiceConnectionError} from "../services/application/errors/Ext
 import {InvalidExternalServiceResponseError} from "../services/application/errors/InvalidExternalServiceResponseError";
 import {ExternalServiceInternalError} from "../services/application/errors/ExternalServiceInternalError";
 import * as jwt from "jsonwebtoken";
-import {ExternalServiceHTTPError} from "../api/external/ExternalServiceHTTPError";
+import {ExternalServiceHTTPError} from "../api/errors/ExternalServiceHTTPError";
 import {InvalidTokenError} from "jwt-decode";
 import {ResourceNotFoundError} from "../services/application/errors/ResourceNotFoundError";
 

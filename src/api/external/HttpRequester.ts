@@ -23,11 +23,14 @@ export class HttpRequester {
                                    ID: ${requestId}
                                    Verb: GET
                                    URL: ${url}
-                                   Params: ${params}`
+                                   Params: ${JSON.stringify(params)}`
             , this.constructor);
 
+        //TODO Esto esta horrible, deberia recibirse por parametro, pero lo dejo asi por simplicidad...
+        const headers = { "Authorization": "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyMywibmFtZSI6IlRlc3QgVXNlciIsInJvbGUiOiJ1c2VyIiwiZXhwIjoxNzMyMjc0MzY2fQ.lB8shawWVDL9zELZ1r_2FWDNvt84dy_2GbHh3DxcoL8" };
+
         // ? Obtiene una response en caso de que haya ido ok, en caso de error lo catchea y handlea
-        const response = await axios.get(url, params).catch(e => {
+        const response = await axios.get(url, {params, headers}).catch(e => {
             logger.logDebugFromEntity(`Attempt HTTP request
                                         ID: ${requestId}
                                         URL: ${url}
@@ -72,12 +75,15 @@ export class HttpRequester {
                                     ID: ${requestId}
                                     Verb: POST
                                     URL: ${url}
-                                    Params: ${params}
+                                    Params: ${JSON.stringify(params)}
                                     Data: ${data}`
                 , this.constructor);
 
+            //TODO Esto esta horrible, deberia recibirse por parametro, pero lo dejo asi por simplicidad...
+            const headers = { "Authorization": "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyMywibmFtZSI6IlRlc3QgVXNlciIsInJvbGUiOiJ1c2VyIiwiZXhwIjoxNzMyMjc0MzY2fQ.lB8shawWVDL9zELZ1r_2FWDNvt84dy_2GbHh3DxcoL8" };
+
             // ? Obtiene una response en caso de que haya ido ok, en caso de error lo catchea y handlea
-            const response = await axios.post(url, data, params).catch(e => {
+            const response = await axios.post(url, data, {params, headers}).catch(e => {
                 logger.logDebugFromEntity(`Attempt HTTP request
                                             ID: ${requestId}
                                             URL: ${url}

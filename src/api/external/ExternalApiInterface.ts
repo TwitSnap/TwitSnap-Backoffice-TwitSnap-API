@@ -2,7 +2,7 @@ import {HttpRequester} from "./HttpRequester";
 import {ExternalServiceInternalError} from "../../services/application/errors/ExternalServiceInternalError";
 import {ExternalServiceConnectionError} from "../../services/application/errors/ExternalServiceConnectionError";
 import {logger} from "../../utils/container/container";
-import {ExternalServiceHTTPError} from "./ExternalServiceHTTPError";
+import {ExternalServiceHTTPError} from "../errors/ExternalServiceHTTPError";
 
 export abstract class ExternalApiInterface {
     httpRequester: HttpRequester;

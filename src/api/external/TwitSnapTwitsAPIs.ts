@@ -1,7 +1,7 @@
 import {HttpRequester} from "./HttpRequester";
 import {ExternalApiInterface} from "./ExternalApiInterface";
 import {AxiosResponse} from "axios";
-import {ExternalServiceHTTPError} from "./ExternalServiceHTTPError";
+import {ExternalServiceHTTPError} from "../errors/ExternalServiceHTTPError";
 import {ResourceNotFoundError} from "../../services/application/errors/ResourceNotFoundError";
 import {injectable} from "tsyringe";
 import {TWITSNAP_URL, BLOCK_TWEET_PATH, GET_TWEETS_PATH, GET_TWIT_PATH} from "../../utils/config";

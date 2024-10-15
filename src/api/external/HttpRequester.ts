@@ -48,7 +48,7 @@ export class HttpRequester {
                                         Result: SUCCESS`
                 , this.constructor);
 
-        // ? Extrae y devuelve el resultado
+        // ? Extrae y devuelve el resultado. Si se llega aca, response nunca deberia ser void porque se hizo el return en el void.
         return extractFunction(response);
     }
 
@@ -102,6 +102,7 @@ export class HttpRequester {
                     , this.constructor);
 
             // ? Extrae y devuelve el resultado, si es que llego una funcion extractora. Caso contrario, devuelve undefinied.
+            // ? Si se llega aca, response nunca deberia ser void porque se hizo el return en el void.
             return extractFunction ? extractFunction(response) : undefined;
     }
 

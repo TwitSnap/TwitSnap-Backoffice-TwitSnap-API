@@ -47,11 +47,11 @@ export class TwitSnapUsersAPIs extends ExternalApiInterface{
     }
 
     private getUserExtractor = (response: void | AxiosResponse<any, any>): any => {
-        //TODO. Ajustar tambien el tipo de dato del return
+        return response?.data;
     }
 
     private getUsersExtractor = (response: void | AxiosResponse<any, any>): any => {
-        //TODO. Ajustar tambien el tipo de dato del return
+        return response?.data;
     }
 
     /**

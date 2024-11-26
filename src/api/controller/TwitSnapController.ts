@@ -24,7 +24,7 @@ export class TwitSnapController extends Controller {
         try {
             const offset = this.getQueryParamOrBadRequestError(req, "offset") as string;
             const limit = this.getQueryParamOrBadRequestError(req, "limit") as string;
-            const userId = req.query.userId as string | ""; // ? Si no llega el parametro userId (es opcional), se asigna un string vacio
+            const userId = (req.query.userId as string) || ""; // ? Si no llega el parametro userId (es opcional), se asigna un string vacio
 
             const twits = await this.twitSnapTwitService.getTwits(offset, limit, userId);
 

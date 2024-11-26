@@ -14,6 +14,9 @@ export class TwitSnapTwitsAPIs extends ExternalApiInterface {
 
     getTwits = async (offset: string, limit: string, userId: string): Promise<any> => {
         const url = TWITSNAP_URL + GET_TWEETS_PATH + "?offset=" + offset + "&limit=" + limit + "&user_id=" + userId;
+        //let url = TWITSNAP_URL + GET_TWEETS_PATH + "?offset=" + offset + "&limit=" + limit + "&user_id=" + userId;
+        //if(userId !== "") url = TWITSNAP_URL + GET_TWEETS_PATH + "?offset=" + offset + "&limit=" + limit + "&user_id=" + userId;
+
         return await this.httpRequester.getToUrl(url, undefined, this.getTwitsErrorHandler, this.getTwitsExtractor);
     };
 

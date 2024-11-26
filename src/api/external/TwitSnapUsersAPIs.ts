@@ -58,7 +58,7 @@ export class TwitSnapUsersAPIs extends ExternalApiInterface {
     private banOrUnbanUserResponseStatusErrorHandler = (status: number): Error => {
         switch (status) {
             case 404:
-                return new ResourceNotFoundError("Twit not found.");
+                return new ResourceNotFoundError("User not found.");
             default:
                 return new ExternalServiceHTTPError(`API Call banOrUnbanUser has failed with status ${status}.`);
         }
@@ -79,7 +79,7 @@ export class TwitSnapUsersAPIs extends ExternalApiInterface {
     private getUserResponseStatusErrorHandler = (status: number): Error => {
         switch (status) {
             case 404:
-                return new ResourceNotFoundError("Twit not found.");
+                return new ResourceNotFoundError("User not found.");
             default:
                 return new ExternalServiceHTTPError(`API Call getUser has failed with status ${status}.`);
         }

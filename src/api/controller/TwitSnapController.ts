@@ -1,22 +1,26 @@
-import {Controller} from "./Controller";
-import {HttpResponseSender} from "./HttpResponseSender";
-import {TwitSnapTwitService} from "../../services/application/TwitSnapTwitService";
-import {TwitSnapUserService} from "../../services/application/TwitSnapUserService";
-import {NextFunction, Request, Response} from "express";
-import {injectable} from "tsyringe";
+import { Controller } from "./Controller";
+import { HttpResponseSender } from "./HttpResponseSender";
+import { TwitSnapTwitService } from "../../services/application/TwitSnapTwitService";
+import { TwitSnapUserService } from "../../services/application/TwitSnapUserService";
+import { NextFunction, Request, Response } from "express";
+import { injectable } from "tsyringe";
 
 @injectable()
 export class TwitSnapController extends Controller {
     private twitSnapTwitService: TwitSnapTwitService;
     private twitSnapUserService: TwitSnapUserService;
 
-    constructor(TwitSnapTwitService: TwitSnapTwitService, TwitSnapUserService: TwitSnapUserService, responseSender: HttpResponseSender) {
+    constructor(
+        TwitSnapTwitService: TwitSnapTwitService,
+        TwitSnapUserService: TwitSnapUserService,
+        responseSender: HttpResponseSender
+    ) {
         super(responseSender);
         this.twitSnapTwitService = TwitSnapTwitService;
         this.twitSnapUserService = TwitSnapUserService;
     }
 
-    public async getTwits(req: Request, res: Response, next: NextFunction): Promise<void> {
+    getTwits = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const offset = this.getQueryParamOrBadRequestError(req, "offset") as string;
             const limit = this.getQueryParamOrBadRequestError(req, "limit") as string;
@@ -28,9 +32,9 @@ export class TwitSnapController extends Controller {
         } catch (e) {
             next(e);
         }
-    }
+    };
 
-    public async getTwit(req: Request, res: Response, next: NextFunction): Promise<void> {
+    getTwit = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const twitId = this.getParamOrBadRequestError(req, "twitId") as string;
             const twit = await this.twitSnapTwitService.getTwit(twitId);
@@ -39,9 +43,9 @@ export class TwitSnapController extends Controller {
         } catch (e) {
             next(e);
         }
-    }
+    };
 
-    public async blockOrUnblockTwit(req: Request, res: Response, next: NextFunction): Promise<void> {
+    blockOrUnblockTwit = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const twitId = this.getParamOrBadRequestError(req, "twitId") as string;
             await this.twitSnapTwitService.blockOrUnblockTwit(twitId);
@@ -50,9 +54,9 @@ export class TwitSnapController extends Controller {
         } catch (e) {
             next(e);
         }
-    }
+    };
 
-    public async getUsers(req: Request, res: Response, next: NextFunction): Promise<void> {
+    getUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const offset = this.getQueryParamOrBadRequestError(req, "offset") as string;
             const limit = this.getQueryParamOrBadRequestError(req, "limit") as string;
@@ -63,9 +67,9 @@ export class TwitSnapController extends Controller {
         } catch (e) {
             next(e);
         }
-    }
+    };
 
-    public async getUser(req: Request, res: Response, next: NextFunction): Promise<void> {
+    getUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const userId = this.getParamOrBadRequestError(req, "userId") as string;
             const user = await this.twitSnapUserService.getUser(userId);
@@ -74,9 +78,9 @@ export class TwitSnapController extends Controller {
         } catch (e) {
             next(e);
         }
-    }
+    };
 
-    public async banOrUnbanUser(req: Request, res: Response, next: NextFunction): Promise<void> {
+    banOrUnbanUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const userId = this.getParamOrBadRequestError(req, "userId") as string;
             await this.twitSnapUserService.banOrUnbanUser(userId);
@@ -85,5 +89,5 @@ export class TwitSnapController extends Controller {
         } catch (e) {
             next(e);
         }
-    }
+    };
 }

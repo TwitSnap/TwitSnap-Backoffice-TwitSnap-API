@@ -1,23 +1,23 @@
 import { TwitSnapUsersAPIs } from '../../api/external/TwitSnapUsersAPIs';
-import {injectable} from "tsyringe";
+import { injectable } from "tsyringe";
 
 @injectable()
-export class TwitSnapUserService{
+export class TwitSnapUserService {
     private twitSnapUsersAPIs: TwitSnapUsersAPIs;
 
-    constructor(TwitSnapTwitsAPIs: TwitSnapUsersAPIs){
+    constructor(TwitSnapTwitsAPIs: TwitSnapUsersAPIs) {
         this.twitSnapUsersAPIs = TwitSnapTwitsAPIs;
     }
 
-    public async getUsers(offset: string, limit: string): Promise<any> {
+    getUsers = async (offset: string, limit: string): Promise<any> => {
         return await this.twitSnapUsersAPIs.getUsers(offset, limit);
-    }
+    };
 
-    public async getUser(userId: string): Promise<any> {
+    getUser = async (userId: string): Promise<any> => {
         return await this.twitSnapUsersAPIs.getUser(userId);
-    }
+    };
 
-    public async banOrUnbanUser(userId: string): Promise<void> {
+    banOrUnbanUser = async (userId: string): Promise<void> => {
         await this.twitSnapUsersAPIs.banOrUnbanUser(userId);
-    }
+    };
 }

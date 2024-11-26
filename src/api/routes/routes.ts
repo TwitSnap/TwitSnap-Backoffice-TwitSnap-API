@@ -9,7 +9,7 @@ router.get("/v1/ts/twits/:twitId", twitSnapController.getTwit);
 router.post("/v1/ts/twits/:twitId/block", twitSnapController.blockOrUnblockTwit);
 
 // ? Users
-router.post("/v1/ts/users", twitSnapController.getUsers);
+router.get("/v1/ts/users", twitSnapController.getUsers);
 router.get("/v1/ts/users/:userId", twitSnapController.getUser);
 router.post("/v1/ts/users/:userId/ban", twitSnapController.banOrUnbanUser);
 

@@ -45,7 +45,7 @@ export class TwitSnapTwitsAPIs extends ExternalApiInterface {
     private blockOrUnblockTwitResponseStatusErrorHandler = (status: number): Error => {
         switch (status) {
             case 404:
-                return new ResourceNotFoundError("User not found.");
+                return new ResourceNotFoundError("Twit not found.");
             default:
                 return new ExternalServiceHTTPError(`API Call getUser has failed with status ${status}.`);
         }

@@ -35,6 +35,7 @@ export class HttpRequester {
                                         ID: ${requestId}
                                         URL: ${url}
                                         Status: ${e.response?.status}
+                                        Data: ${JSON.stringify(e.response?.data)}
                                         Result: FAILED`
                 , this.constructor);
             catchFunction(e)
@@ -45,6 +46,7 @@ export class HttpRequester {
                                         ID: ${requestId}
                                         URL: ${url}
                                         Status: ${response?.status}
+                                        Data: ${JSON.stringify(response?.data)}
                                         Result: SUCCESS`
                 , this.constructor);
 
@@ -76,7 +78,7 @@ export class HttpRequester {
                                     Verb: POST
                                     URL: ${url}
                                     Params: ${JSON.stringify(params)}
-                                    Data: ${data}`
+                                    Data: ${JSON.stringify(data)}`
                 , this.constructor);
 
             //TODO Esto esta horrible, deberia recibirse por parametro, pero lo dejo asi por simplicidad...
@@ -88,6 +90,7 @@ export class HttpRequester {
                                             ID: ${requestId}
                                             URL: ${url}
                                             Status: ${e.response?.status}
+                                            Data: ${JSON.stringify(e.response?.data)}
                                             Result: FAILED`
                     , this.constructor);
                 catchFunction(e)
@@ -98,6 +101,7 @@ export class HttpRequester {
                                             ID: ${requestId}
                                             URL: ${url}
                                             Status: ${response?.status}
+                                            Data: ${JSON.stringify(response?.data)}
                                             Result: SUCCESS`
                     , this.constructor);
 

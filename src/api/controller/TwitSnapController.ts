@@ -20,11 +20,22 @@ export class TwitSnapController extends Controller {
         this.twitSnapUserService = TwitSnapUserService;
     }
 
-    getTwits = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    public getMetrics = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+        try {
+            const metricType = this.getOptionalQueryParamAsString(req, "metric_type");
+            const metrics = await this.twitSnapUserService.getMetrics(metricType);
+
+            this.okResponse(res, metrics);
+        } catch (e) {
+            next(e);
+        }
+    };
+
+    public getTwits = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const offset = this.getQueryParamOrBadRequestError(req, "offset") as string;
             const limit = this.getQueryParamOrBadRequestError(req, "limit") as string;
-            const userId = (req.query.userId as string) || ""; // ? Si no llega el parametro userId (es opcional), se asigna un string vacio
+            const userId = this.getOptionalQueryParamAsString(req, "userId");
 
             const twits = await this.twitSnapTwitService.getTwits(offset, limit, userId);
 
@@ -34,7 +45,7 @@ export class TwitSnapController extends Controller {
         }
     };
 
-    getTwit = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    public getTwit = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const twitId = this.getParamOrBadRequestError(req, "twitId") as string;
             const twit = await this.twitSnapTwitService.getTwit(twitId);
@@ -45,7 +56,7 @@ export class TwitSnapController extends Controller {
         }
     };
 
-    blockOrUnblockTwit = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    public blockOrUnblockTwit = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const twitId = this.getParamOrBadRequestError(req, "twitId") as string;
             await this.twitSnapTwitService.blockOrUnblockTwit(twitId);
@@ -56,7 +67,7 @@ export class TwitSnapController extends Controller {
         }
     };
 
-    getUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    public getUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const offset = this.getQueryParamOrBadRequestError(req, "offset") as string;
             const limit = this.getQueryParamOrBadRequestError(req, "limit") as string;
@@ -69,7 +80,7 @@ export class TwitSnapController extends Controller {
         }
     };
 
-    getUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    public getUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const userId = this.getParamOrBadRequestError(req, "userId") as string;
             const user = await this.twitSnapUserService.getUser(userId);
@@ -80,7 +91,7 @@ export class TwitSnapController extends Controller {
         }
     };
 
-    banOrUnbanUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    public banOrUnbanUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const userId = this.getParamOrBadRequestError(req, "userId") as string;
             await this.twitSnapUserService.banOrUnbanUser(userId);

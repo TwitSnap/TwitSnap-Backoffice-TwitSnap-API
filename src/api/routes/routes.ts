@@ -12,5 +12,6 @@ router.post("/v1/ts/twits/:twitId/block", twitSnapController.blockOrUnblockTwit)
 router.get("/v1/ts/users", twitSnapController.getUsers);
 router.get("/v1/ts/users/:userId", twitSnapController.getUser);
 router.post("/v1/ts/users/:userId/ban", twitSnapController.banOrUnbanUser);
+router.get("/v1/ts/users/metrics", twitSnapController.getMetrics);
 
 export default router;

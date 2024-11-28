@@ -4,7 +4,7 @@ import { AxiosResponse } from "axios";
 import { ResourceNotFoundError } from "../../services/application/errors/ResourceNotFoundError";
 import { ExternalServiceHTTPError } from "../errors/ExternalServiceHTTPError";
 import { injectable } from "tsyringe";
-import { TWITSNAP_URL, BAN_USER_PATH, GET_USER_PATH, GET_USERS_PATH } from "../../utils/config";
+import { TWITSNAP_URL, BAN_USER_PATH, GET_USER_PATH, GET_USERS_PATH, GET_METRICS_PATH } from "../../utils/config";
 
 @injectable()
 export class TwitSnapUsersAPIs extends ExternalApiInterface {
@@ -13,12 +13,36 @@ export class TwitSnapUsersAPIs extends ExternalApiInterface {
     }
 
     /**
+     * Get metrics from the external service.
+     *
+     * @param metricType - The metric type.
+     */
+    public getMetrics = async (metricType: string): Promise<any> => {
+        let url = TWITSNAP_URL + GET_METRICS_PATH
+        if (metricType) url += "?metric_type=" + metricType;
+
+        return await this.httpRequester.getToUrl(url, undefined, this.getMetricsErrorHandler, this.getMetricsExtractor);
+    }
+
+    private getMetricsExtractor = (response: void | AxiosResponse<any, any>): any => {
+        return response?.data;
+    };
+
+    private getMetricsErrorHandler = (e: any): void => {
+        this.standardErrorHandler(e, this.getMetricsResponseStatusErrorHandler);
+    };
+
+    private getMetricsResponseStatusErrorHandler = (status: number): Error => {
+        return this.standardResponseStatusErrorHandler(status, "getMetrics");
+    };
+
+    /**
      * Get users from the external service.
      *
      * @param offset - The offset for the users.
      * @param limit - The limit for the users.
      */
-    getUsers = async (offset: string, limit: string): Promise<any> => {
+    public getUsers = async (offset: string, limit: string): Promise<any> => {
         const url = TWITSNAP_URL + GET_USERS_PATH + "?offset=" + offset + "&limit=" + limit;
         return await this.httpRequester.getToUrl(url, undefined, this.getUsersErrorHandler, this.getUsersExtractor);
     };
@@ -28,7 +52,7 @@ export class TwitSnapUsersAPIs extends ExternalApiInterface {
      *
      * @param userId - The user id.
      */
-    getUser = async (userId: string): Promise<any> => {
+    public getUser = async (userId: string): Promise<any> => {
         const url = TWITSNAP_URL + GET_USER_PATH + userId;
         return await this.httpRequester.getToUrl(url, undefined, this.getUserErrorHandler, this.getUserExtractor);
     };
@@ -38,7 +62,7 @@ export class TwitSnapUsersAPIs extends ExternalApiInterface {
      *
      * @param userId - The user id.
      */
-    banOrUnbanUser = async (userId: string): Promise<void> => {
+    public banOrUnbanUser = async (userId: string): Promise<void> => {
         const url = TWITSNAP_URL + BAN_USER_PATH + userId + "/ban";
         await this.httpRequester.postToUrl(url, undefined, this.banOrUnbanUserErrorHandler);
     };

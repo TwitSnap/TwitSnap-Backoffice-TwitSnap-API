@@ -81,4 +81,9 @@ export abstract class Controller {
         if(!req.query[queryParam]) throw new BadRequestError(`Query parameter ${queryParam} is required`);
         return req.query[queryParam];
     }
+
+    protected getOptionalQueryParamAsString = (req: any, queryParam: string): string => {
+        if(!req.query[queryParam]) return "";
+        return req.query[queryParam] as string;
+    }
 }

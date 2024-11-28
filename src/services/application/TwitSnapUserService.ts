@@ -9,15 +9,19 @@ export class TwitSnapUserService {
         this.twitSnapUsersAPIs = TwitSnapTwitsAPIs;
     }
 
-    getUsers = async (offset: string, limit: string): Promise<any> => {
+    public getUsers = async (offset: string, limit: string): Promise<any> => {
         return await this.twitSnapUsersAPIs.getUsers(offset, limit);
     };
 
-    getUser = async (userId: string): Promise<any> => {
+    public getUser = async (userId: string): Promise<any> => {
         return await this.twitSnapUsersAPIs.getUser(userId);
     };
 
-    banOrUnbanUser = async (userId: string): Promise<void> => {
+    public banOrUnbanUser = async (userId: string): Promise<void> => {
         await this.twitSnapUsersAPIs.banOrUnbanUser(userId);
     };
+
+    public getMetrics = async (metricType: string): Promise<any> => {
+        return await this.twitSnapUsersAPIs.getMetrics(metricType);
+    }
 }

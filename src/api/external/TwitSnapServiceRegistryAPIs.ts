@@ -7,7 +7,7 @@ import {ResourceNotFoundError} from "../../services/application/errors/ResourceN
 import {ExternalServiceHTTPError} from "../errors/ExternalServiceHTTPError";
 
 @injectable()
-export class TwitSnapTwitsAPIs extends ExternalApiInterface {
+export class TwitSnapServiceRegistryAPIs extends ExternalApiInterface {
     constructor(httpRequester: HttpRequester) {
         super(httpRequester);
     }
@@ -74,7 +74,7 @@ export class TwitSnapTwitsAPIs extends ExternalApiInterface {
         return response?.data;
     }
 
-    public updateService = async (serviceId: string, status: string): Promise<void> => {
+    public changeServiceStatus = async (serviceId: string, status: string): Promise<void> => {
         const url = TWITSNAP_URL + CHANGE_SERVICE_STATUS_PATH
 
         const data = {
@@ -82,18 +82,18 @@ export class TwitSnapTwitsAPIs extends ExternalApiInterface {
             status: status
         }
 
-        return await this.httpRequester.postToUrl(url, data, this.updateServiceErrorHandler, undefined, this.updateServiceExtractor);
+        return await this.httpRequester.postToUrl(url, data, this.changeServiceStatusErrorHandler, undefined, this.changeServiceStatusExtractor);
     }
 
-    private updateServiceErrorHandler = (e: any): void => {
-        this.standardErrorHandler(e, this.updateServiceResponseStatusErrorHandler);
+    private changeServiceStatusErrorHandler = (e: any): void => {
+        this.standardErrorHandler(e, this.changeServiceStatusResponseStatusErrorHandler);
     };
 
-    private updateServiceResponseStatusErrorHandler = (status: number): Error => {
+    private changeServiceStatusResponseStatusErrorHandler = (status: number): Error => {
         return this.standardResponseStatusErrorHandler(status, "updateService");
     };
 
-    private updateServiceExtractor = (response: void | AxiosResponse<any, any>): any => {
+    private changeServiceStatusExtractor = (response: void | AxiosResponse<any, any>): any => {
         return response?.data;
     }
 }

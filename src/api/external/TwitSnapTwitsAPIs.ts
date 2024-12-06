@@ -12,17 +12,17 @@ export class TwitSnapTwitsAPIs extends ExternalApiInterface {
         super(httpRequester);
     }
 
-    getTwits = async (offset: string, limit: string, userId: string): Promise<any> => {
+    public getTwits = async (offset: string, limit: string, userId: string): Promise<any> => {
         const url = TWITSNAP_URL + GET_TWEETS_PATH + "?offset=" + offset + "&limit=" + limit + "&user_id=" + userId;
         return await this.httpRequester.getToUrl(url, undefined, this.getTwitsErrorHandler, this.getTwitsExtractor);
     };
 
-    getTwit = async (twitId: string): Promise<any> => {
+    public getTwit = async (twitId: string): Promise<any> => {
         const url = TWITSNAP_URL + GET_TWIT_PATH + "?post_id=" + twitId;
         return await this.httpRequester.getToUrl(url, undefined, this.getTwitErrorHandler, this.getTwitExtractor);
     };
 
-    blockOrUnblockTwit = async (twitId: string): Promise<void> => {
+    public blockOrUnblockTwit = async (twitId: string): Promise<void> => {
         const url = TWITSNAP_URL + BLOCK_TWEET_PATH + "?post_id=" + twitId;
         await this.httpRequester.postToUrl(url, undefined, this.blockOrUnblockTwitErrorHandler);
     };
@@ -44,7 +44,7 @@ export class TwitSnapTwitsAPIs extends ExternalApiInterface {
             case 404:
                 return new ResourceNotFoundError("Twit not found.");
             default:
-                return new ExternalServiceHTTPError(`API Call getUser has failed with status ${status}.`);
+                return new ExternalServiceHTTPError(`API Call blockOrUnblockTwit has failed with status ${status}.`);
         }
     };
 

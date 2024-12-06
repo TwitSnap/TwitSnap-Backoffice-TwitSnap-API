@@ -4,20 +4,24 @@ import { TwitSnapTwitService } from "../../services/application/TwitSnapTwitServ
 import { TwitSnapUserService } from "../../services/application/TwitSnapUserService";
 import { NextFunction, Request, Response } from "express";
 import { injectable } from "tsyringe";
+import {TwitSnapServiceRegistryService} from "../../services/application/TwitSnapServiceRegistryService";
 
 @injectable()
 export class TwitSnapController extends Controller {
     private twitSnapTwitService: TwitSnapTwitService;
     private twitSnapUserService: TwitSnapUserService;
+    private twitSnapServiceRegistryService: TwitSnapServiceRegistryService;
 
     constructor(
         TwitSnapTwitService: TwitSnapTwitService,
         TwitSnapUserService: TwitSnapUserService,
+        TwitSnapServiceRegistryService: TwitSnapServiceRegistryService,
         responseSender: HttpResponseSender
     ) {
         super(responseSender);
         this.twitSnapTwitService = TwitSnapTwitService;
         this.twitSnapUserService = TwitSnapUserService;
+        this.twitSnapServiceRegistryService = TwitSnapServiceRegistryService;
     }
 
     public getMetrics = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -101,4 +105,48 @@ export class TwitSnapController extends Controller {
             next(e);
         }
     };
+
+    public createService = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+        try {
+            const name = this.getFieldOrBadRequestError(req, 'name') as string;
+            const description = this.getFieldOrBadRequestError(req, 'description') as string;
+            const service = await this.twitSnapServiceRegistryService.createService(name, description);
+
+            this.createdResponse(res, service);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    public getService = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+        try {
+            const serviceId = this.getParamOrBadRequestError(req, 'id') as string;
+            const service = await this.twitSnapServiceRegistryService.getService(serviceId);
+
+            this.okResponse(res, service);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    public getServices = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+        try {
+            const services = await this.twitSnapServiceRegistryService.getServices();
+            this.okResponse(res, services);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    public changeServiceStatus = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+        try {
+            const id = this.getFieldOrBadRequestError(req, 'id') as string;
+            const status = this.getFieldOrBadRequestError(req, 'status') as string;
+
+            await this.twitSnapServiceRegistryService.changeServiceStatus(id, status);
+            this.okNoContentResponse(res);
+        } catch (e) {
+            next(e);
+        }
+    }
 }

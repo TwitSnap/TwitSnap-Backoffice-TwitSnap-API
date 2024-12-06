@@ -1,7 +1,7 @@
 import {injectable} from "tsyringe";
 import {ExternalApiInterface} from "./ExternalApiInterface";
 import {HttpRequester} from "./HttpRequester";
-import {GET_METRICS_PATH, TWITSNAP_URL} from "../../utils/config";
+import {TWITSNAP_URL, GET_SERVICES_PATH, GET_SERVICE_PATH, CHANGE_SERVICE_STATUS_PATH, CREATE_SERVICE_PATH} from "../../utils/config";
 import {AxiosResponse} from "axios";
 import {ResourceNotFoundError} from "../../services/application/errors/ResourceNotFoundError";
 import {ExternalServiceHTTPError} from "../errors/ExternalServiceHTTPError";
@@ -13,14 +13,14 @@ export class TwitSnapTwitsAPIs extends ExternalApiInterface {
     }
 
     public createService = async (serviceName: string, serviceDescription: string): Promise<any> => {
-        const url = TWITSNAP_URL + GET_METRICS_PATH //TODO UPDATE PATH
+        const url = TWITSNAP_URL + CREATE_SERVICE_PATH
 
         const data = {
             name: serviceName,
             description: serviceDescription
         }
 
-        await this.httpRequester.postToUrl(url, data, this.createServiceErrorHandler, undefined, this.createServiceExtractor);
+        return await this.httpRequester.postToUrl(url, data, this.createServiceErrorHandler, undefined, this.createServiceExtractor);
     }
 
     private createServiceErrorHandler = (e: any): void => {
@@ -36,7 +36,7 @@ export class TwitSnapTwitsAPIs extends ExternalApiInterface {
     }
 
     public getService = async (serviceId: string): Promise<any> => {
-        const url = TWITSNAP_URL + GET_METRICS_PATH + "/" + serviceId //TODO UPDATE PATH
+        const url = TWITSNAP_URL + GET_SERVICE_PATH + "/" + serviceId
         return await this.httpRequester.getToUrl(url, undefined, this.getServiceErrorHandler, this.getServiceExtractor);
     }
 
@@ -58,7 +58,7 @@ export class TwitSnapTwitsAPIs extends ExternalApiInterface {
     }
 
     public getServices = async (): Promise<any> => {
-        const url = TWITSNAP_URL + GET_METRICS_PATH //TODO UPDATE PATH
+        const url = TWITSNAP_URL + GET_SERVICES_PATH
         return await this.httpRequester.getToUrl(url, undefined, this.getServicesErrorHandler, this.getServicesExtractor);
     }
 
@@ -75,14 +75,14 @@ export class TwitSnapTwitsAPIs extends ExternalApiInterface {
     }
 
     public updateService = async (serviceId: string, status: string): Promise<void> => {
-        const url = TWITSNAP_URL + GET_METRICS_PATH //TODO UPDATE PATH
+        const url = TWITSNAP_URL + CHANGE_SERVICE_STATUS_PATH
 
         const data = {
             id: serviceId,
             status: status
         }
 
-        await this.httpRequester.postToUrl(url, data, this.updateServiceErrorHandler, undefined, this.updateServiceExtractor);
+        return await this.httpRequester.postToUrl(url, data, this.updateServiceErrorHandler, undefined, this.updateServiceExtractor);
     }
 
     private updateServiceErrorHandler = (e: any): void => {
